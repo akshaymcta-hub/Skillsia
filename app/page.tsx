@@ -128,6 +128,11 @@ export default function RootCRMPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       const loaded = getSavedState();
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'info@skillsia.in';
+      if (loaded.currentUser && loaded.currentUser.email !== adminEmail) {
+        loaded.currentUser = null;
+        saveState(loaded);
+      }
       setCrmState(loaded);
       setIsDark(loaded.isDark || false);
       setMounted(true);
@@ -167,8 +172,8 @@ export default function RootCRMPage() {
       return;
     }
 
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@skillsia.in';
-    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'SkillsiaSecure2026!';
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'info@skillsia.in';
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'Muktai@2009';
 
     if (loginEmail === adminEmail && loginPassword === adminPassword) {
       const activeAdmin = { email: loginEmail, fullName: 'System Admin' };
@@ -255,7 +260,7 @@ export default function RootCRMPage() {
               timestamp: new Date().toISOString(),
               action: "Edit Student",
               details: `Student record updated: ${formData.fullName} (${formData.id})`,
-              user: currentUser?.email || 'admin@skillsia.in'
+              user: currentUser?.email || 'info@skillsia.in'
             },
             ...prev.activityLogs
           ]
@@ -324,7 +329,7 @@ export default function RootCRMPage() {
               timestamp: new Date().toISOString(),
               action: "Add Admission",
               details: `Registered student ${formData.fullName} (${newId}) with registration fee ₹${paidAmt}`,
-              user: currentUser?.email || 'admin@skillsia.in'
+              user: currentUser?.email || 'info@skillsia.in'
             },
             ...prev.activityLogs
           ]
@@ -412,7 +417,7 @@ export default function RootCRMPage() {
             timestamp: new Date().toISOString(),
             action: "Collect Fee",
             details: `Collected ₹${paymentData.amountPaid} for student ${selectedStd.fullName}. Receipt ${customReceiptNo} issued.`,
-            user: currentUser?.email || 'admin@skillsia.in'
+            user: currentUser?.email || 'info@skillsia.in'
           },
           ...prev.activityLogs
         ]
@@ -1563,7 +1568,7 @@ info@skillsia.in`
                             timestamp: new Date().toISOString(),
                             action: `Send ${outreachType.toUpperCase()} reminder`,
                             details: `Dispatched automated reminder to ${activeOutreachStudent.fullName} (${activeOutreachStudent.mobile}) for ₹${activeOutreachStudent.pendingAmount}`,
-                            user: currentUser?.email || 'admin@skillsia.in'
+                            user: currentUser?.email || 'info@skillsia.in'
                           },
                           ...prev.activityLogs
                         ]
