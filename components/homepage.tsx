@@ -26,6 +26,33 @@ interface HomepageProps {
   isDark: boolean;
 }
 
+export const SkillsiaLogo = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 100 100"
+    className={className}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Blue Arch */}
+    <path
+      d="M15 52 A 35 35 0 0 1 85 52"
+      stroke="#3b82f6"
+      strokeWidth="14"
+      strokeLinecap="round"
+      fill="none"
+    />
+    {/* Central Pillar */}
+    <rect
+      x="43"
+      y="49"
+      width="14"
+      height="20"
+      rx="2"
+      fill="#f59e0b"
+    />
+  </svg>
+);
+
 export function AcademyHomepage({ 
   students, 
   payments, 
@@ -56,8 +83,8 @@ export function AcademyHomepage({
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm">
-              <GraduationCap className="w-4.5 h-4.5" />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <SkillsiaLogo className="w-8 h-8" />
             </div>
             <div>
               <span className="font-semibold text-sm tracking-tight text-neutral-900 dark:text-zinc-50">

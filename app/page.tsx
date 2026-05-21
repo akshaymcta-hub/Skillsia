@@ -58,6 +58,33 @@ import { StudentForm } from '@/components/student-form';
 import { FeeManagement } from '@/components/fee-management';
 import { AcademyHomepage } from '@/components/homepage';
 
+const SkillsiaLogo = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 100 100"
+    className={className}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Blue Arch */}
+    <path
+      d="M15 52 A 35 35 0 0 1 85 52"
+      stroke="#3b82f6"
+      strokeWidth="14"
+      strokeLinecap="round"
+      fill="none"
+    />
+    {/* Central Pillar */}
+    <rect
+      x="43"
+      y="49"
+      width="14"
+      height="20"
+      rx="2"
+      fill="#f59e0b"
+    />
+  </svg>
+);
+
 export default function RootCRMPage() {
   const [mounted, setMounted] = useState(false);
   const [crmState, setCrmState] = useState<CRMState | null>(() => {
@@ -121,7 +148,9 @@ export default function RootCRMPage() {
   if (!mounted || !crmState) {
     return (
       <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-white">
-        <GraduationCap className="w-12 h-12 text-indigo-500 animate-bounce" />
+        <div className="w-16 h-16 mb-2 animate-bounce">
+          <SkillsiaLogo className="w-full h-full" />
+        </div>
         <p className="mt-4 font-bold text-sm">Initializing Skillsia Academy CRM Workspace...</p>
       </div>
     );
@@ -613,8 +642,8 @@ export default function RootCRMPage() {
             <div className="space-y-5">
               {/* Seal brand */}
               <div className="flex items-center gap-2 pb-3 border-b border-slate-200/60 dark:border-zinc-900">
-                <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white shrink-0">
-                  <GraduationCap className="w-4 h-4" />
+                <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                  <SkillsiaLogo className="w-7 h-7" />
                 </div>
                 <div>
                   <span className="font-semibold text-xs tracking-tight text-slate-900 dark:text-white">
