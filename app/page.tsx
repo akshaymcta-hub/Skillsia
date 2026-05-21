@@ -87,16 +87,11 @@ const SkillsiaLogo = ({ className = "w-6 h-6" }: { className?: string }) => (
 
 export default function RootCRMPage() {
   const [mounted, setMounted] = useState(false);
-  const [crmState, setCrmState] = useState<CRMState | null>(() => {
-    return getSavedState();
-  });
+  const [crmState, setCrmState] = useState<CRMState | null>(null);
 
   // Active View Tab: 'home' | 'dashboard' | 'students' | 'addStudent' | 'payments' | 'alerts' | 'logs'
   const [currentView, setCurrentView] = useState<string>('home');
-  const [isDark, setIsDark] = useState<boolean>(() => {
-    const loaded = getSavedState();
-    return loaded.isDark || false;
-  });
+  const [isDark, setIsDark] = useState<boolean>(false);
 
   // Authentication states
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -132,6 +127,9 @@ export default function RootCRMPage() {
   // Realtime state loader
   useEffect(() => {
     const timer = setTimeout(() => {
+      const loaded = getSavedState();
+      setCrmState(loaded);
+      setIsDark(loaded.isDark || false);
       setMounted(true);
     }, 0);
     return () => clearTimeout(timer);
