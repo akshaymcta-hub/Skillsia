@@ -167,23 +167,30 @@ export default function RootCRMPage() {
       return;
     }
 
-    const activeAdmin = { email: loginEmail, fullName: 'System Admin' };
-    updateState(prev => ({
-      ...prev,
-      currentUser: activeAdmin,
-      activityLogs: [
-        {
-          id: `LOG-${Date.now()}`,
-          timestamp: new Date().toISOString(),
-          action: "Admin Sign In",
-          details: "Logged in successfully to Dashboard workspace.",
-          user: loginEmail
-        },
-        ...prev.activityLogs
-      ]
-    }));
-    setShowLoginModal(false);
-    setCurrentView('dashboard');
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@skillsia.in';
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'SkillsiaSecure2026!';
+
+    if (loginEmail === adminEmail && loginPassword === adminPassword) {
+      const activeAdmin = { email: loginEmail, fullName: 'System Admin' };
+      updateState(prev => ({
+        ...prev,
+        currentUser: activeAdmin,
+        activityLogs: [
+          {
+            id: `LOG-${Date.now()}`,
+            timestamp: new Date().toISOString(),
+            action: "Admin Sign In",
+            details: "Logged in successfully to Dashboard workspace.",
+            user: loginEmail
+          },
+          ...prev.activityLogs
+        ]
+      }));
+      setShowLoginModal(false);
+      setCurrentView('dashboard');
+    } else {
+      setAuthError('Access Denied. Invalid Administrative Email or Password.');
+    }
   };
 
   const handleLogout = () => {
