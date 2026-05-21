@@ -73,8 +73,8 @@ export default function RootCRMPage() {
 
   // Authentication states
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginEmail, setLoginEmail] = useState('info@skillsia.in');
-  const [loginPassword, setLoginPassword] = useState('SkillsiaAdmin2026!');
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [forgotEmail, setForgotEmail] = useState('');
   const [resetStep, setResetStep] = useState(0); // 0: input, 1: code sent, 2: success
