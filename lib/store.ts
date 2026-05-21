@@ -484,8 +484,23 @@ export function getSavedState(): CRMState {
       const parsed = JSON.parse(saved);
       // Validate structure matches
       if (parsed.students && parsed.payments) {
+        // Self-heal and safeguard any missing arrays or fields from older state schemas
+        parsed.students = Array.isArray(parsed.students) ? parsed.students : INITIAL_STUDENTS;
+        parsed.payments = Array.isArray(parsed.payments) ? parsed.payments : INITIAL_PAYMENTS;
+        parsed.courses = Array.isArray(parsed.courses) ? parsed.courses : INITIAL_COURSES;
+        parsed.notifications = Array.isArray(parsed.notifications) ? parsed.notifications : INITIAL_NOTIFICATIONS;
+        parsed.activityLogs = Array.isArray(parsed.activityLogs) ? parsed.activityLogs : INITIAL_ACTIVITY_LOGS;
+        parsed.isDark = typeof parsed.isDark === "boolean" ? parsed.isDark : false;
+        if (parsed.currentUser === undefined) {
+          parsed.currentUser = null;
+        }
+
         // Sync with newest courses/students if the cached ones are outdated
-        if (!parsed.courses || parsed.courses.length !== INITIAL_COURSES.length || parsed.courses[0]?.name !== INITIAL_COURSES[0].name) {
+        if (
+          !parsed.courses ||
+          parsed.courses.length !== INITIAL_COURSES.length ||
+          parsed.courses[0]?.name !== INITIAL_COURSES[0].name
+        ) {
           parsed.courses = INITIAL_COURSES;
           parsed.students = INITIAL_STUDENTS;
           parsed.payments = INITIAL_PAYMENTS;
