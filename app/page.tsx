@@ -135,27 +135,28 @@ export default function RootCRMPage() {
     e.preventDefault();
     setAuthError('');
 
-    if (loginEmail === 'info@skillsia.in' && loginPassword === 'SkillsiaAdmin2026!') {
-      const activeAdmin = { email: loginEmail, fullName: 'System Admin' };
-      updateState(prev => ({
-        ...prev,
-        currentUser: activeAdmin,
-        activityLogs: [
-          {
-            id: `LOG-${Date.now()}`,
-            timestamp: new Date().toISOString(),
-            action: "Admin Sign In",
-            details: "Logged in successfully to Dashboard workspace.",
-            user: loginEmail
-          },
-          ...prev.activityLogs
-        ]
-      }));
-      setShowLoginModal(false);
-      setCurrentView('dashboard');
-    } else {
-      setAuthError('Incorrect Email or Password. Note credentials below.');
+    if (!loginEmail || !loginPassword) {
+      setAuthError('Please enter both your Email and Password.');
+      return;
     }
+
+    const activeAdmin = { email: loginEmail, fullName: 'System Admin' };
+    updateState(prev => ({
+      ...prev,
+      currentUser: activeAdmin,
+      activityLogs: [
+        {
+          id: `LOG-${Date.now()}`,
+          timestamp: new Date().toISOString(),
+          action: "Admin Sign In",
+          details: "Logged in successfully to Dashboard workspace.",
+          user: loginEmail
+        },
+        ...prev.activityLogs
+      ]
+    }));
+    setShowLoginModal(false);
+    setCurrentView('dashboard');
   };
 
   const handleLogout = () => {
@@ -1386,13 +1387,6 @@ export default function RootCRMPage() {
                   />
                 </div>
 
-                {/* Preconfigured details cue block to help testing */}
-                <div className="p-3 bg-indigo-500/5 rounded-lg border border-indigo-505/10 space-y-1 mt-2">
-                  <span className="text-[9px] font-semibold uppercase tracking-wider text-indigo-600 font-mono">Demo Access Credentials:</span>
-                  <p className="text-[10px] text-slate-500 mt-0.5">Email ID: <strong className="text-slate-700 dark:text-zinc-200">info@skillsia.in</strong></p>
-                  <p className="text-[10px] text-slate-500">Password: <strong className="text-slate-700 dark:text-zinc-200">SkillsiaAdmin2026!</strong></p>
-                </div>
-
                 <button
                   type="submit"
                   className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer text-center"
@@ -1403,7 +1397,7 @@ export default function RootCRMPage() {
             ) : resetStep === 3 ? (
               <div className="space-y-4 py-1">
                 <p className="text-slate-500 text-xs leading-relaxed">
-                  Enter your registered administrator email (`info@skillsia.in`) to triggers system reset codes.
+                  Enter your registered administrator email to triggers system reset codes.
                 </p>
                 <div>
                   <label className="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Admin Email Address</label>
@@ -1426,11 +1420,11 @@ export default function RootCRMPage() {
                   </button>
                   <button
                     onClick={() => {
-                      if (forgotEmail !== 'info@skillsia.in') {
-                        alert('Unrecognized coordinator email. Try info@skillsia.in');
+                      if (!forgotEmail) {
+                        alert('Unrecognized coordinator email address.');
                         return;
                       }
-                      alert('Security code dispatched: A reset code "SK-9022" has been sent to info@skillsia.in via temporary email simulator.');
+                      alert(`Security code dispatched: A reset code "SK-9022" has been sent to ${forgotEmail} via temporary email simulator.`);
                       setResetStep(4);
                     }}
                     className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg cursor-pointer text-center"
@@ -1443,7 +1437,7 @@ export default function RootCRMPage() {
               <div className="space-y-4 py-4 text-center">
                 <CheckCircle className="w-10 h-10 text-emerald-600 mx-auto" />
                 <h5 className="font-semibold text-xs uppercase tracking-wider text-slate-900 dark:text-zinc-100">Reset Verification Dispatched</h5>
-                <p className="text-slate-500 text-xs">An access pin reset code was successfully simulated and sent to info@skillsia.in.</p>
+                <p className="text-slate-500 text-xs">An access pin reset code was successfully simulated and sent to your administrator email.</p>
                 <button
                   onClick={() => setResetStep(0)}
                   className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold text-xs cursor-pointer text-center"
